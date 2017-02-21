@@ -87,7 +87,7 @@ namespace NodeSharpLib
 
         public override string ToString()
         {
-            return jsonutil.Serialize(this);
+            return jsonutil.Serialize(this._dict);
         }
     }
 
