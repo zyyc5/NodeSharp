@@ -1,9 +1,7 @@
-## Welcome to GitHub Pages
+## Nodejs与C#之间进行跨进程通信方案
 
-You can use the [editor on GitHub](https://github.com/zyyc5/NodeSharp/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
+原理详见 [NodeSharp](http://blog.qicheen.com/archives/14)
+主要是利用 NodeJs的child_process模块和C#中的标准输入输出，理论上来说，只要实现
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
