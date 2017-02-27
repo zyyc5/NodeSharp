@@ -51,8 +51,7 @@ exeservice.send(alwaysparam,function(){},alwaysfun);
 //exeservice.close(true);//强制退出，不传true的话，如果exe设置成了自动重启，那么还是会重启
 
 ```
-# C#
-
+# CSharp
 ```markdown
 
 新建项目，可以是控制台应用，也可以是winform，或者是WPF，总之只要能引用 NodeSharpLib 这个dll就行
