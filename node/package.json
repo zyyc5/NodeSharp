@@ -1,0 +1,20 @@
+{
+  "name": "nodesharp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "nodesharp.js",
+  "dependencies": {
+    "iconv-lite": "^0.4.24"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "node",
+    "exe",
+    "childprocess"
+  ],
+  "author": "zyyc5",
+  "license": "ISC"
+}

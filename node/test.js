@@ -1,10 +1,10 @@
 'use strict';
-const childprocess = require('./ChildProcess');
+const nodesharp = require('./nodesharp');
 
 
 let start = () => {
 	//正常启动一个exe
-	// var exeservice=new childprocess('./exe/NodeSharpTest.exe');
+	// var exeservice=new nodesharp('./exe/NodeSharpTest.exe');
 	// console.log(exeservice);
 
 
@@ -16,7 +16,7 @@ let start = () => {
 	//         args: []//给exe的启动参数
 	//     };
 
-	let exeservice = new childprocess({
+	let exeservice = new nodesharp({
 		exe: './exe/NodeSharpTest.exe',
 		autoReOpen: true,
 		args: []
