@@ -10,16 +10,17 @@ using System.Data;
 
 namespace NodeSharpLib.util
 {
-    public class jsonutil
+    public class JsonUtil
     {
-        static JsonReader reader = new JsonReader();
+        static readonly JsonReader reader = new JsonReader();
         static JsonWriter writer = new JsonWriter();
         public static string Serialize(object obj) {
             try
             {
                 return writer.Write(obj);
             }
-            catch (Exception e) {
+            catch (Exception)
+            {
                 return null;
             }
            
@@ -34,8 +35,10 @@ namespace NodeSharpLib.util
         {
             if (object.Equals(jsonString, null))
                 return null;
-            System.Web.Script.Serialization.JavaScriptSerializer jserizor = new System.Web.Script.Serialization.JavaScriptSerializer();
-            jserizor.MaxJsonLength = 10240000;
+            System.Web.Script.Serialization.JavaScriptSerializer jserizor = new System.Web.Script.Serialization.JavaScriptSerializer
+            {
+                MaxJsonLength = 10240000
+            };
             return jserizor.Deserialize<List<Dictionary<string, object>>>(jsonString);
         }
 
@@ -43,8 +46,10 @@ namespace NodeSharpLib.util
         {
             if (object.Equals(jsonString, null))
                 return null;
-            System.Web.Script.Serialization.JavaScriptSerializer jserizor = new System.Web.Script.Serialization.JavaScriptSerializer();
-            jserizor.MaxJsonLength = 10240000;
+            System.Web.Script.Serialization.JavaScriptSerializer jserizor = new System.Web.Script.Serialization.JavaScriptSerializer
+            {
+                MaxJsonLength = 10240000
+            };
             return jserizor.Deserialize<Dictionary<string, T>>(jsonString);
         }
 
@@ -76,16 +81,16 @@ namespace NodeSharpLib.util
     public class SqlResult
     {
         dynamic _data;
-        public dynamic row
+        public dynamic Row
         {
             get { return _data; }
             set {
-                this.rowsAffected = value.Count;
+                this.RowsAffected = value.Count;
                 this._data = value;
             }
         }
 
-        public int rowsAffected { get; set; }
+        public int RowsAffected { get; set; }
 
         public string error;
     }

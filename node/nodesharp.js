@@ -10,15 +10,9 @@ let S4 = () => {
 };
 
 let guid = () => {
-    return (S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4());
+    return (S4() + S4() + S4() + S4());
 };
 
-let getparam = (obj) => {
-    return {
-        cguid: guid(),
-        data: obj
-    }
-};
 
 /**
  * 
@@ -28,8 +22,7 @@ class NodeSharp extends EventEmitter {
         super();
         this.childprocess = null;
         this.onceListenters = {};
-        this.alawysListenters = {};
-        this.cachedata = "";
+        this.onListenters = {};
         this._needReOpen = false;
         this.opt = {};
 
@@ -47,7 +40,6 @@ class NodeSharp extends EventEmitter {
         } else {
             this.opt = extend(defaultOpt, option);
         }
-        // this.opt.args = ['pos'].concat(this.opt.args);
         if (this.opt.dataListener) {
             this.on('data', dataListener)
         }
@@ -91,36 +83,22 @@ class NodeSharp extends EventEmitter {
             let json = '';
             try {
                 json = data.toString();
-                if (json.endsWith('\r\n'))
-                    json = json.substr(0, json.length - 1);
-                json = this.cachedata + json;
-                this.cachedata = "";
-                let resultdatas = json.split('@=@');
-                for (let j in resultdatas) {
-                    if (resultdatas.length == 1) {
-                        this.cachedata += resultdatas[j];
-                        continue;
-                    }
-                    if (j == (resultdatas.length - 1) && resultdatas[j] != '') {
-                        this.cachedata += resultdatas[j];
-                        continue;
-                    }
-                    let jsondata = "";
-                    try {
-                        jsondata = JSON.parse(resultdatas[j]);
-                    } catch (ee) {
-                        this.cachedata += resultdatas[j];
-                        continue;
-                    }
-                    if (this.onceListenters[jsondata.cguid]) {
-                        this.onceListenters[jsondata.cguid](jsondata.Error, jsondata.data);
-                        delete this.onceListenters[jsondata.cguid];
-                    }
-                    if (this.alawysListenters[jsondata.cguid]) {
-                        this.alawysListenters[jsondata.cguid](jsondata.Error, jsondata.data);
-                    }
-                    this.emit('data', jsondata.Error, jsondata.data);
+
+                let jsondata = "";
+                try {
+                    jsondata = JSON.parse(json);
+                } catch (_ee) {
+                    return
                 }
+                if (this.onceListenters[jsondata.Pid]) {
+                    this.onceListenters[jsondata.Pid](jsondata.Error, jsondata.Data);
+                    delete this.onceListenters[jsondata.Pid];
+                }
+                if (this.onListenters[jsondata.Pid]) {
+                    this.onListenters[jsondata.Pid](jsondata.Error, jsondata.Data);
+                }
+                this.emit('data', jsondata.Error, jsondata.Data);
+
             } catch (e) {
                 this.emit('error', e);
             }
@@ -137,36 +115,42 @@ class NodeSharp extends EventEmitter {
 
     close() {
         this._needReOpen = false;
-        if (!this.childprocess.killed)
+        if (!this.childprocess.killed) {
             this.childprocess.kill('SIGTERM');
+        }
     };
 
     reOpen() {
         this._needReOpen = true;
-        if (!this.childprocess.killed)
+        if (!this.childprocess.killed) {
             return this.childprocess.kill();
+        }
         this.open();
+    }
+
+    buildParam(obj) {
+        return {
+            pid: guid(),
+            data: obj
+        }
     }
 
     send({
         param,
-        oncecb,
-        alawyscb
+        once,
+        on
     }) {
-        if (!this.childprocess && oncecb)
-            return oncecb('The required process has not started');
-        if (!this.childprocess.stdin.writable && oncecb)
-            return oncecb('Unable to establish channel connection');
-        if (!this.childprocess && alawyscb)
-            return alawyscb('The required process has not started');
-        if (!this.childprocess.stdin.writable && alawyscb)
-            return alawyscb('Unable to establish channel connection');
-        param = getparam(param);
-        //console.log(JSON.stringify(data));
-        if (oncecb)
-            this.onceListenters[param.cguid] = oncecb;
-        if (alawyscb)
-            this.alawysListenters[param.cguid] = alawyscb;
+        if (!this.childprocess && (once || on))
+            return (once || on)('The required process has not started');
+        if (!this.childprocess.stdin.writable && (once || on))
+            return (once || on)('Unable to establish channel connection');
+        param = this.buildParam(param);
+        if (once) {
+            this.onceListenters[param.pid] = once;
+        }
+        if (on) {
+            this.onListenters[param.pid] = on;
+        }
         let senddata = iconv.encode(JSON.stringify(param) + "\r\n", 'gbk');
         this.childprocess.stdin.write(senddata);
     };

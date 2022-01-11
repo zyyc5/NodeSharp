@@ -13,7 +13,7 @@ namespace NodeSharpLib
 
         public BJSONObject(string jsonstr)
         {
-            this._dict = jsonutil.DeserializeObject(jsonstr);
+            this._dict = JsonUtil.DeserializeObject(jsonstr);
             Dict2BJsonObj(this._dict);
         }
 
@@ -87,7 +87,7 @@ namespace NodeSharpLib
 
         public override string ToString()
         {
-            return jsonutil.Serialize(this._dict);
+            return JsonUtil.Serialize(this._dict);
         }
     }
 

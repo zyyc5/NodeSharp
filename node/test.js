@@ -31,7 +31,7 @@ let onceCallBackTest = (exe) => {
 
 	exe.send({
 		param: onceparam,
-		oncecb: (err, data) => {
+		once: (err, data) => {
 			console.log(data);
 		}
 	});
@@ -50,7 +50,7 @@ let alwaysCallBackTest = (exe) => {
 
 	exe.send({
 		param: alwaysparam,
-		alawyscb: (err, data) => {
+		on: (err, data) => {
 			if (err)
 				return console.error(err);
 			console.log(data);

@@ -3,19 +3,19 @@ namespace NodeSharpLib
 {
     public class NodeParam
     {
-        BJSONObject _json;
+        private readonly BJSONObject _json;
 
         public NodeParam(string param)
         {
             this._json = new BJSONObject(param);
         }
-        public string cid {
+        public string Pid {
             get {
-                return _json["cguid"];
+                return _json["pid"];
             }
         }
 
-        public string command {
+        public string Command {
             get {
                 return _json["data"]["command"];
             }
@@ -31,7 +31,7 @@ namespace NodeSharpLib
 
         public RPCHandle GetRPCHandle()
         {
-            return new RPCHandle(this.cid);
+            return new RPCHandle(this.Pid);
         }
     }
 }

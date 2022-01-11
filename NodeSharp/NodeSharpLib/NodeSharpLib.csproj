@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="BJSONObject.cs" />
     <Compile Include="NodeParam.cs" />
-    <Compile Include="util\jsonutil.cs" />
+    <Compile Include="util\JsonUtil.cs" />
     <Compile Include="NodeSharp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RPCHandle.cs" />

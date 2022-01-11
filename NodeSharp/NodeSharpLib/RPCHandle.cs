@@ -5,38 +5,41 @@ namespace NodeSharpLib
 {
     public class RPCHandle
     {
-        public RPCHandle(string cguid)
+        public RPCHandle(string Pid)
         {
-            this.cguid = cguid;
+            this.Pid = Pid;
         }
 
-        public RPCHandle(string cguid, string error)
+        public RPCHandle(string Pid, string error)
         {
-            this.cguid = cguid;
+            this.Pid = Pid;
             this.Error = error;
         }
 
-        public string cguid { get; set; }
+        public string Pid { get; set; }
 
-        public dynamic data { get; set; }
+        public dynamic Data { get; set; }
 
         public string Error { get; set; }
 
         override
         public string ToString()
         {
-            return jsonutil.Serialize(this);
+            return JsonUtil.Serialize(this);
         }
 
         public void Send(object data=null,string error=null)
         {
             if (data != null)
-                this.data = data;
+            {
+                this.Data = data;
+            }
             if (!string.IsNullOrEmpty(error))
+            {
                 this.Error = error;
-
-            var filterchar = "@=@";
-            Console.WriteLine(this.ToString().Replace("\r\n", "").Replace("\n", "") + filterchar);
+            }
+            
+            Console.WriteLine(this.ToString());
         }
 
         public void SendWithError(string error)

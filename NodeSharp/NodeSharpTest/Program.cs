@@ -12,13 +12,13 @@ namespace NodeSharpTest
                 RPCHandle rpc = nodeparam.GetRPCHandle();
 
                 //一般性的单次任务
-                if (nodeparam.command=="once")
+                if (nodeparam.Command=="once")
                 {
                     rpc.Send("once test"+nodeparam["data"]);
                 }
 
                 //长时间的监听任务
-                if (nodeparam.command == "always")
+                else if (nodeparam.Command == "always")
                 {
                     Task.Factory.StartNew(()=> {
                         while(true)
@@ -35,6 +35,9 @@ namespace NodeSharpTest
                             }
                         }
                     });
+                } else
+                {
+                    rpc.Send("Not Supported Command: " + nodeparam.Command);
                 }
 
             });
@@ -42,7 +45,7 @@ namespace NodeSharpTest
 
 
 
-        //{"cguid":"c2e713166d13156a4d8e2ce8d10680ee","data":{"command":"FormTest","path":"D:\\gittest\\test"}}
-        //{"cguid":"c2e713166d13156a4d8e2ce8d10680ee","data":{"command":"FormTest","path":"D:\\gittest\\test"}}
+        //{"pid":"c2e713166d13156a4d8e2ce8d10680ee","data":{"command":"FormTest","path":"D:\\gittest\\test"}}
+        //{"pid":"c2e713166d13156a4d8e2ce8d10680ee","data":{"command":"FormTest","path":"D:\\gittest\\test"}}
     }
 }

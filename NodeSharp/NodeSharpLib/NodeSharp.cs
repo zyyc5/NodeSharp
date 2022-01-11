@@ -15,12 +15,12 @@ namespace NodeSharpLib
                 var ch = Console.ReadLine();
                 if (string.IsNullOrEmpty(ch))
                 {
-                    System.Threading.Thread.Sleep(100);
+                    System.Threading.Thread.Sleep(5);
                     continue;
                 }
                 try
                 {
-                    doWork(ch, action);
+                    DoWork(ch, action);
                 }
                 catch(Exception ee) {
                     new RPCHandle("", ee.Message).Send();
@@ -28,7 +28,7 @@ namespace NodeSharpLib
             }
         }
 
-        static void doWork(string json, Action<NodeParam> action)
+        static void DoWork(string json, Action<NodeParam> action)
         {
             NodeParam param = new NodeParam(json);
             action(param);
